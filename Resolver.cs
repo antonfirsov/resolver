@@ -187,7 +187,7 @@ namespace Test.Net
                 await _server.SendAsync(buffer.Slice(0, HeaderSize + size), default);
                 int readLength = await _server.ReceiveAsync(buffer);
 
-                Console.WriteLine("Received {0} bytes of data", readLength);
+                //Console.WriteLine("Received {0} bytes of data", readLength);
 
                 return (AddressResult[])ProcessResponse(new Span<byte>(_buffer, 0, readLength), queryType);
             }
@@ -351,8 +351,8 @@ namespace Test.Net
             Span<Header> header = MemoryMarshal.Cast<byte, Header>(buffer);
 
 
-            Console.WriteLine(header[0].TransactionId);
-            Console.WriteLine("questions {0} Answers {1} length {2}", header[0].QueryCount, header[0].AnswerCount, buffer.Length);
+            //Console.WriteLine(header[0].TransactionId);
+            //Console.WriteLine("questions {0} Answers {1} length {2}", header[0].QueryCount, header[0].AnswerCount, buffer.Length);
 
             int offset = ProcessResponseQueries(buffer, header[0].QueryCount);
 
@@ -366,15 +366,15 @@ namespace Test.Net
             var index = 0;
             while (count > 0)
             {
-                Console.WriteLine("Processing answer {0} ot of {1}", count, header[0].AnswerCount);
+                //Console.WriteLine("Processing answer {0} ot of {1}", count, header[0].AnswerCount);
                 int nameLength = SkipName(buffer, offset);
-                Console.WriteLine("Question name length = {0}", nameLength);
+                //Console.WriteLine("Question name length = {0}", nameLength);
                 QueryType queryType = (QueryType)BinaryPrimitives.ReadUInt16BigEndian(buffer.Slice(offset + nameLength, 2));
                 int queryClass = BinaryPrimitives.ReadUInt16BigEndian(buffer.Slice(offset + nameLength + 2, 2));
                 uint ttl = BinaryPrimitives.ReadUInt32BigEndian(buffer.Slice(offset + nameLength + 4, 4)); 
                 int dataLength = BinaryPrimitives.ReadUInt16BigEndian(buffer.Slice(offset + nameLength + 8, 2));
 
-                Console.WriteLine("Type {0} class {1} ttl = {2} data {3}", queryType, queryClass, ttl, dataLength);
+                //Console.WriteLine("Type {0} class {1} ttl = {2} data {3}", queryType, queryClass, ttl, dataLength);
 
                 switch (queryType)
                 {
